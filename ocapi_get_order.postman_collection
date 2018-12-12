@@ -1,172 +1,172 @@
 {
-	"info": {
-		"_postman_id": "42709c15-899b-47c7-9b6f-8d9948f7e064",
-		"name": "SFCC OCAPI - Get Order",
-		"description": "Postman scripts to get SFCC Order by using BM credentials",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "BM grants",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "c027cc95-91fb-43bb-b07f-7421e12a56aa",
-						"exec": [
-							"var CryptoJS = require('crypto-js');",
-							"",
-							"const bmUsername = pm.environment.get('bm_username');",
-							"const bmPassword = pm.environment.get('bm_password');",
-							"const ocapiClientId = pm.environment.get('ocapi-client-id');",
-							"",
-							"const rawStr = CryptoJS.enc.Utf8.parse(`${bmUsername}:${bmPassword}:${ocapiClientId}`);",
-							"const base64Encoded = CryptoJS.enc.Base64.stringify(rawStr);",
-							"",
-							"pm.environment.set('USER_CREDENTIALS', base64Encoded);"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "de5938cb-33dc-409e-8c52-7314fad083cf",
-						"exec": [
-							"const jsonData = pm.response.json();",
-							"",
-							"pm.test('Access_token exists', function() {",
-							"    pm.expect(jsonData.access_token).to.be.a('string');",
-							"});",
-							"",
-							"if (pm.response.code === 200 || pm.response.code === 201) {",
-							"    pm.environment.set('ACCESS_TOKEN', jsonData.access_token);",
-							"}",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/x-www-form-urlencoded"
-					},
-					{
-						"key": "Authorization",
-						"type": "text",
-						"value": "Basic {{USER_CREDENTIALS}}"
-					}
-				],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "grant_type",
-							"value": "urn:demandware:params:oauth:grant-type:client-id:dwsid:dwsecuretoken",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "https://{{ocapi-instance-host}}/dw/oauth2/access_token?client_id={{ocapi-client-id}}",
-					"protocol": "https",
-					"host": [
-						"{{ocapi-instance-host}}"
-					],
-					"path": [
-						"dw",
-						"oauth2",
-						"access_token"
-					],
-					"query": [
-						{
-							"key": "client_id",
-							"value": "{{ocapi-client-id}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Shop - GET Order",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "cdb31c23-00f2-4369-a378-a80b941ef23a",
-						"exec": [
-							"const jsonData = pm.response.json();\r",
-							"\r",
-							"pm.test('Order_no exists', function() {\r",
-							"    pm.expect(jsonData.order_no).to.be.a('string');\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "1ba7c52c-d2b9-4a7e-9b31-cb0107a2b3f3",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "x-dw-client-id",
-						"value": "{{ocapi-client-id}}"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Authorization",
-						"type": "text",
-						"value": "Bearer {{ACCESS_TOKEN}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://{{ocapi-instance-host}}/s/{{ocapi-site}}/dw/shop/{{ocapi-version}}/orders/{{sample-order-id}}",
-					"protocol": "https",
-					"host": [
-						"{{ocapi-instance-host}}"
-					],
-					"path": [
-						"s",
-						"{{ocapi-site}}",
-						"dw",
-						"shop",
-						"{{ocapi-version}}",
-						"orders",
-						"{{sample-order-id}}"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "42709c15-899b-47c7-9b6f-8d9948f7e064",
+    "name": "SFCC OCAPI - Get Order",
+    "description": "Postman scripts to get SFCC Order by using BM credentials",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "BM grants",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "c027cc95-91fb-43bb-b07f-7421e12a56aa",
+            "exec": [
+              "var CryptoJS = require('crypto-js');",
+              "",
+              "const bmUsername = pm.environment.get('bm_username');",
+              "const bmPassword = pm.environment.get('bm_password');",
+              "const ocapiClientId = pm.environment.get('ocapi-client-id');",
+              "",
+              "const rawStr = CryptoJS.enc.Utf8.parse(`${bmUsername}:${bmPassword}:${ocapiClientId}`);",
+              "const base64Encoded = CryptoJS.enc.Base64.stringify(rawStr);",
+              "",
+              "pm.environment.set('USER_CREDENTIALS', base64Encoded);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "de5938cb-33dc-409e-8c52-7314fad083cf",
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test('Access_token exists', function() {",
+              "    pm.expect(jsonData.access_token).to.be.a('string');",
+              "});",
+              "",
+              "if (pm.response.code === 200 || pm.response.code === 201) {",
+              "    pm.environment.set('ACCESS_TOKEN', jsonData.access_token);",
+              "}",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "key": "Authorization",
+            "type": "text",
+            "value": "Basic {{USER_CREDENTIALS}}"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "urn:demandware:params:oauth:grant-type:client-id:dwsid:dwsecuretoken",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://{{ocapi-instance-host}}/dw/oauth2/access_token?client_id={{ocapi-client-id}}",
+          "protocol": "https",
+          "host": [
+            "{{ocapi-instance-host}}"
+          ],
+          "path": [
+            "dw",
+            "oauth2",
+            "access_token"
+          ],
+          "query": [
+            {
+              "key": "client_id",
+              "value": "{{ocapi-client-id}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Shop - GET Order",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "cdb31c23-00f2-4369-a378-a80b941ef23a",
+            "exec": [
+              "const jsonData = pm.response.json();\r",
+              "\r",
+              "pm.test('Order_no exists', function() {\r",
+              "    pm.expect(jsonData.order_no).to.be.a('string');\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "1ba7c52c-d2b9-4a7e-9b31-cb0107a2b3f3",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-dw-client-id",
+            "value": "{{ocapi-client-id}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "type": "text",
+            "value": "Bearer {{ACCESS_TOKEN}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "https://{{ocapi-instance-host}}/s/{{ocapi-site}}/dw/shop/{{ocapi-version}}/orders/{{sample-order-id}}",
+          "protocol": "https",
+          "host": [
+            "{{ocapi-instance-host}}"
+          ],
+          "path": [
+            "s",
+            "{{ocapi-site}}",
+            "dw",
+            "shop",
+            "{{ocapi-version}}",
+            "orders",
+            "{{sample-order-id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
