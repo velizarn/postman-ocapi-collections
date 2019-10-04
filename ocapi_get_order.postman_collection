@@ -18,9 +18,9 @@
               "",
               "const bmUsername = pm.environment.get('bm_username');",
               "const bmPassword = pm.environment.get('bm_password');",
-              "const ocapiClientId = pm.environment.get('ocapi-client-id');",
+              "const ocapiClientPassw = pm.environment.get('ocapi-client-password');",
               "",
-              "const rawStr = CryptoJS.enc.Utf8.parse(`${bmUsername}:${bmPassword}:${ocapiClientId}`);",
+              "const rawStr = CryptoJS.enc.Utf8.parse(`${bmUsername}:${bmPassword}:${ocapiClientPassw}`);",
               "const base64Encoded = CryptoJS.enc.Base64.stringify(rawStr);",
               "",
               "pm.environment.set('USER_CREDENTIALS', base64Encoded);"
